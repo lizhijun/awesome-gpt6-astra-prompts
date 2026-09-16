@@ -1,0 +1,25 @@
+You are an expert game developer. Build a complete, playable web-based clone of "Last War: Survival Game" as a single self-contained HTML file that runs in a browser with no build step.
+
+Use vanilla JavaScript, HTML5 Canvas (2D context) for the runner gameplay, and DOM/CSS overlays for menus, HUD, and the base-building meta layer. No external libraries, no CDNs, no image or audio files fetched from URLs. All art is procedurally drawn with Canvas primitives or CSS gradients and shapes.
+
+Target 60 FPS on desktop and mobile. Support both mouse and touch drag for steering and tap for UI. The canvas must resize responsively while keeping world proportions locked.
+
+The game has two connected modes: (A) a top-down auto-runner shooter where a squad of soldiers advances up a lane, and (B) a persistent base-building meta layer where the player upgrades buildings, trains troops, and unlocks progression. The player toggles between modes with buttons on the home screen.
+
+RUNNER MODE (core loop, must feel polished):
+
+Camera is a fixed top-down 3/4 perspective. The lane scrolls downward while the squad appears to run upward. Lane width is 6 world units. Base scroll speed 8 u/s, accelerating to 14 u/s by level end.
+
+The squad is rendered as a triangular formation of small circular soldiers with rifles. Starting count is 5. Max count on screen is 60, overflow banked as a counter.
+
+Player controls: drag horizontally anywhere on the canvas to steer the whole squad left or right. Movement uses easing, not snapping. Vertical drag does nothing.
+
+Auto-fire: every soldier fires a small yellow projectile at the nearest enemy every 0.35 seconds. Projectile speed 20 u/s. Damage scales with current weapon tier.
+
+Weapon tiers 1 through 6: pistol, SMG, rifle, shotgun (3-pellet spread), rocket launcher (splash radius 2), minigun (fire rate 0.1s). Upgrades apply to the entire squad.
+
+Gates: every 6 to 10 seconds, the lane presents a pair of gates spanning the lane width. Gates are translucent glowing rectangles the squad must pass through. Only the gate a soldier crosses is applied to that soldier.
+
+Gate types: additive (+3, +5, +8), multiplicative (x2, x3), subtractive (-4, -6), divisive (/2, /3), weapon-upgrade (grants next tier for 10 seconds), shield (grants +1 HP layer to each soldier).
+
+Gate pairs must offer meaningful choice: never pair two positive gates of equal value. Typical pairings: x2 vs +10, x3 vs +20, weapon-up vs +8, shield vs x2. Layout varies and escalates per level.
