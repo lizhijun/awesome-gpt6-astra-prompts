@@ -1,0 +1,41 @@
+**Act as a Principal Graphics Programmer and Expert Game Developer specializing in WebGL, Three.js, and modular ES6 JavaScript. I am building an isometric, hyper-casual 3D resource management game set in a snowy environment.**
+
+**I need you to generate a comprehensive, multi-file project structure (using Vite or Webpack) and provide the foundational code for each system. Do not give me a single monolithic file. Break the code down into logical classes and modules.**
+
+**Please implement the following architectural pillars and gameplay systems:**
+
+**1. Engine & Scene Architecture (GameManager.js, SceneSetup.js)**  
+Camera: Implement a strict OrthographicCamera. Position it to achieve a classic top-down isometric view (angled downward and rotated by 45 degrees). Ensure the camera smoothly lerps to follow the player character without locking rigidly to them.  
+
+Lighting & Shadows: Use a combination of HemisphereLight (for cool, ambient snowy bouncing light) and a strong DirectionalLight to cast sharp, satisfying shadows. Enable PCFSoftShadowMap on the renderer.  
+
+Game Loop: Set up a robust requestAnimationFrame loop with delta time calculation to ensure movement and animations are frame-rate independent.
+
+**2. Procedural Asset Generation (AssetFactory.js)**  
+Since we are not loading external GLTF models yet, create factory functions to generate stylized, low-poly Three.js primitives for all entities:  
+
+- Player: A blue capsule with a small box for a backpack.  
+- Trees: A brown cylinder base with 2-3 overlapping green cones.  
+- Bears: White elongated boxes with small cylindrical legs.  
+- Resources: Small brown cylinders (wood), red flat boxes (raw meat), cooked brown boxes (cooked meat), and green boxes (cash).
+
+**3. Controller & Physics (PlayerController.js)**  
+Implement a point-and-click movement system via Raycasting to the ground plane, or smooth WASD movement using standard vector math.  
+
+Calculate rotation so the character smoothly rotates to face their movement direction using Quaternion.slerp.
+
+**4. The Stacking System (Crucial System) (InventoryStack.js)**  
+Use a Group attached to the player mesh. As the player collects items, calculate the Y-offset based on the height of the resource mesh and instantiate the new item at the top of the stack. It should look comically high.
+
+**5. Interaction & Trigger Zones (TriggerZone.js)**  
+Implement AABB (Axis-Aligned Bounding Box) collision detection between the player and specific map zones.  
+
+- Campfire (Processing): If the player walks into this bounding box with raw meat in their stack, remove the raw meat, trigger a 1-second delay, and add cooked meat to the stack.  
+- Crowd (Selling): If the player walks into this zone with cooked meat or wood, drain the resources from their stack one by one, and instantiate green "cash" blocks dropping onto the ground or instantly adding to a UI counter.
+
+**6. Map Expansion Logic**  
+Place a "Buy Zone" near a specific section of the fence with an HTML overlay showing a cost (e.g., "$200").  
+
+If the player enters the zone and their cash variable meets the threshold, deduct the cash, animate the specific fence posts sinking into the ground using a tweening function, and reveal a new colored plane (a blue fishing pond) beyond it.
+
+**Please output the exact folder structure you recommend first, followed by the complete code for each file.**
